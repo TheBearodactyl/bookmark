@@ -3,4 +3,5 @@ mod data;
 
 fn main() -> anyhow::Result<()> {
     cli::cli()
+    
 }

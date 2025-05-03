@@ -11,23 +11,34 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 enum Cmds {
+    /// Initialize the config file
     Init,
+    /// List the current bookmarks and their data
     List,
+    /// Open a specific bookmark's path with your system default
     Open {
+        /// The name of the bookmark
         name: String,
     },
+    /// Add a bookmark
     Add {
+        /// The name of the bookmark
         #[arg(short = 'n', long)]
         name: String,
-
+        
+        /// The path to the bookmarked file/folder
         #[arg(short = 'p', long)]
         path: String,
-
+        
+        /// The description for the bookmark
         #[arg(short = 'd', long)]
         description: String,
     },
+    /// Remove a bookmark
     Remove {
+        /// The name of the bookmark
         name: String,
+
     },
 }
 
@@ -35,7 +46,7 @@ pub fn cli() -> anyhow::Result<()> {
     let argv = Cli::parse();
 
     init_cfg_file()?;
-
+    
     match argv.command {
         Cmds::Init {} => {
             init_cfg_file()?;
@@ -112,7 +123,7 @@ pub fn cli() -> anyhow::Result<()> {
                 anyhow::bail!("-- Bookmark '{}' not found", name);
             }
         }
-        Cmds::Remove { name } => {
+        Cmds::Remove { name} => {
             remove_bookmark(&name)?;
             println!("Removed bookmark '{}'", name);
         }
